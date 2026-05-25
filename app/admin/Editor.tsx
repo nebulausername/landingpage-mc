@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /* ═══════════════════════════════════════════════════════════════════
    ADMIN EDITOR
@@ -42,6 +42,9 @@ export default function Editor({ initial }: { initial: AdminState }) {
   const [dirty, setDirty] = useState(false);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const previewRef = useRef<HTMLIFrameElement>(null);
 
   // Warn before leaving with unsaved changes
   useEffect(() => {
@@ -50,6 +53,19 @@ export default function Editor({ initial }: { initial: AdminState }) {
     window.addEventListener('beforeunload', handler);
     return () => window.removeEventListener('beforeunload', handler);
   }, [dirty]);
+
+  // Ctrl/Cmd + S → save
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        if (dirty && !saving) save();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dirty, saving]);
 
   function setConfig(updater: (c: any) => any) {
     setData(d => ({ ...d, config: updater(structuredClone(d.config)) }));
@@ -75,6 +91,13 @@ export default function Editor({ initial }: { initial: AdminState }) {
       if (json.ok) {
         setDirty(false);
         setMsg({ type: 'ok', text: `Gespeichert · ${(json.written || []).length} Dateien aktualisiert` });
+        // Bump preview iframe to pick up HMR/SSR changes
+        const iframe = previewRef.current;
+        if (iframe) {
+          const url = new URL(iframe.src || window.location.origin + '/');
+          url.searchParams.set('_r', String(Date.now()));
+          iframe.src = url.toString();
+        }
       } else {
         setMsg({ type: 'err', text: `Fehler: ${json.detail || json.error}` });
       }
@@ -86,25 +109,54 @@ export default function Editor({ initial }: { initial: AdminState }) {
     }
   }
 
+  function reloadFromDisk() {
+    if (dirty && !confirm('Ungespeicherte Änderungen verwerfen und neu laden?')) return;
+    window.location.reload();
+  }
+
   async function logout() {
     await fetch('/api/admin/logout', { method: 'POST' });
     window.location.reload();
   }
 
+  const activeTab = TABS.find(t => t.id === tab);
+
   return (
     <div className="min-h-screen flex bg-cream">
-      {/* Sidebar */}
-      <aside className="w-64 shrink-0 bg-bark text-cream-soft flex flex-col">
-        <div className="px-5 py-5 border-b border-cream-soft/10">
-          <h1 className="font-display text-2xl">Admin</h1>
-          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-cream-soft/50 mt-1">landing-mc</p>
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="lg:hidden fixed inset-0 bg-bark/60 z-40 animate-fade-in"
+          aria-hidden
+        />
+      )}
+
+      {/* Sidebar (drawer on mobile, static on desktop) */}
+      <aside
+        className={`fixed lg:static inset-y-0 left-0 w-64 shrink-0 bg-bark text-cream-soft flex flex-col z-50 transform transition-transform duration-200 lg:translate-x-0 ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        }`}
+      >
+        <div className="px-5 py-5 border-b border-cream-soft/10 flex items-center justify-between">
+          <div>
+            <h1 className="font-display text-2xl">Admin</h1>
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-cream-soft/50 mt-1">landing-mc</p>
+          </div>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="lg:hidden w-8 h-8 grid place-items-center rounded-lg hover:bg-cream-soft/10"
+            aria-label="Sidebar schließen"
+          >
+            <svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 4l10 10M14 4L4 14"/></svg>
+          </button>
         </div>
-        <nav className="flex-1 py-3 overflow-y-auto">
+        <nav className="flex-1 py-3 overflow-y-auto" aria-label="Admin sections">
           {TABS.map(t => (
             <button
               key={t.id}
-              onClick={() => setTab(t.id)}
-              className={`w-full text-left px-5 py-2.5 text-sm flex items-baseline gap-2 transition-colors ${
+              onClick={() => { setTab(t.id); setSidebarOpen(false); }}
+              className={`w-full text-left px-5 py-2.5 text-sm flex flex-col gap-0.5 transition-colors ${
                 tab === t.id
                   ? 'bg-moss-dark text-cream-soft'
                   : 'hover:bg-cream-soft/5 text-cream-soft/90'
@@ -117,7 +169,7 @@ export default function Editor({ initial }: { initial: AdminState }) {
         </nav>
         <div className="p-4 border-t border-cream-soft/10 flex flex-col gap-2">
           <a href="/" target="_blank" rel="noopener noreferrer" className="text-xs text-cream-soft/60 hover:text-cream-soft">
-            ↗ Live site
+            ↗ Live site in neuem Tab
           </a>
           <button onClick={logout} className="text-xs text-left text-cream-soft/60 hover:text-rust">
             Abmelden
@@ -125,25 +177,95 @@ export default function Editor({ initial }: { initial: AdminState }) {
         </div>
       </aside>
 
-      {/* Content */}
+      {/* Content + optional Preview */}
       <div className="flex-1 flex flex-col min-w-0">
-        <main className="flex-1 overflow-y-auto px-8 py-8">
-          {tab === 'server'       && <ServerTab       data={data} setConfig={setConfig} />}
-          {tab === 'worlds'       && <WorldsTab       data={data} setConfig={setConfig} />}
-          {tab === 'ranks'        && <RanksTab        data={data} setConfig={setConfig} setT={setT} />}
-          {tab === 'testimonials' && <TestimonialsTab data={data} setConfig={setConfig} setT={setT} />}
-          {tab === 'gallery'      && <GalleryTab      data={data} setConfig={setConfig} setT={setT} />}
-          {tab === 'staff'        && <StaffTab        data={data} setConfig={setConfig} setT={setT} />}
-          {tab === 'vote'         && <VoteTab         data={data} setConfig={setConfig} setT={setT} />}
-          {tab === 'roadmap'      && <RoadmapTab      data={data} setConfig={setConfig} setT={setT} />}
-          {tab === 'comparison'   && <ComparisonTab   data={data} setConfig={setConfig} setT={setT} />}
-          {tab === 'faq'          && <FaqTab          data={data} setConfig={setConfig} setT={setT} />}
-          {tab === 'texts'        && <TextsTab        data={data} setT={setT} />}
-          {tab === 'settings'     && <SettingsTab     data={data} setConfig={setConfig} />}
-        </main>
+        {/* Top bar */}
+        <header className="bg-cream-soft border-b border-paper-edge px-4 sm:px-6 py-3 flex items-center gap-3">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="lg:hidden w-9 h-9 grid place-items-center rounded-lg hover:bg-paper"
+            aria-label="Menü öffnen"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 5h12M3 9h12M3 13h12"/></svg>
+          </button>
+          <div className="min-w-0 flex-1">
+            <h2 className="font-display text-lg sm:text-xl font-medium truncate">{activeTab?.label}</h2>
+            <p className="hidden sm:block font-mono text-[10px] uppercase tracking-[0.14em] text-bark-muted truncate">{activeTab?.hint}</p>
+          </div>
+          <button
+            onClick={reloadFromDisk}
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-bark-muted hover:text-bark hover:bg-paper rounded-lg transition-colors"
+            title="Aus Datei neu laden (Änderungen verwerfen)"
+          >
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M2 8a6 6 0 0 1 11-3.5M14 8a6 6 0 0 1-11 3.5 M13 2v3h-3 M3 14v-3h3"/>
+            </svg>
+            Neu laden
+          </button>
+          <button
+            onClick={() => setPreviewOpen(v => !v)}
+            className={`hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg transition-colors ${
+              previewOpen ? 'bg-moss text-cream-soft' : 'text-bark-muted hover:text-bark hover:bg-paper'
+            }`}
+            title="Live-Preview ein-/ausblenden"
+          >
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z M8 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+            </svg>
+            {previewOpen ? 'Preview aus' : 'Preview'}
+          </button>
+        </header>
+
+        {/* Body: editor + (optional) preview */}
+        <div className="flex-1 flex min-h-0">
+          <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-8 min-w-0">
+            {tab === 'server'       && <ServerTab       data={data} setConfig={setConfig} />}
+            {tab === 'worlds'       && <WorldsTab       data={data} setConfig={setConfig} />}
+            {tab === 'ranks'        && <RanksTab        data={data} setConfig={setConfig} setT={setT} />}
+            {tab === 'testimonials' && <TestimonialsTab data={data} setConfig={setConfig} setT={setT} />}
+            {tab === 'gallery'      && <GalleryTab      data={data} setConfig={setConfig} setT={setT} />}
+            {tab === 'staff'        && <StaffTab        data={data} setConfig={setConfig} setT={setT} />}
+            {tab === 'vote'         && <VoteTab         data={data} setConfig={setConfig} setT={setT} />}
+            {tab === 'roadmap'      && <RoadmapTab      data={data} setConfig={setConfig} setT={setT} />}
+            {tab === 'comparison'   && <ComparisonTab   data={data} setConfig={setConfig} setT={setT} />}
+            {tab === 'faq'          && <FaqTab          data={data} setConfig={setConfig} setT={setT} />}
+            {tab === 'texts'        && <TextsTab        data={data} setT={setT} />}
+            {tab === 'settings'     && <SettingsTab     data={data} setConfig={setConfig} />}
+          </main>
+
+          {previewOpen && (
+            <aside className="hidden lg:flex flex-col w-[480px] xl:w-[560px] border-l border-paper-edge bg-cream">
+              <div className="border-b border-paper-edge px-3 py-2 flex items-center gap-2">
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-bark-muted flex-1">Live Preview</span>
+                <button
+                  onClick={() => {
+                    const f = previewRef.current; if (!f) return;
+                    const url = new URL(f.src || window.location.origin + '/');
+                    url.searchParams.set('_r', String(Date.now()));
+                    f.src = url.toString();
+                  }}
+                  className="w-7 h-7 grid place-items-center rounded-md hover:bg-paper text-bark-muted hover:text-bark"
+                  title="Preview neu laden"
+                  aria-label="Preview neu laden"
+                >
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M2 8a6 6 0 0 1 11-3.5M14 8a6 6 0 0 1-11 3.5 M13 2v3h-3 M3 14v-3h3"/>
+                  </svg>
+                </button>
+              </div>
+              <iframe
+                ref={previewRef}
+                src="/"
+                title="Live Preview"
+                loading="lazy"
+                className="flex-1 w-full border-0 bg-cream"
+              />
+            </aside>
+          )}
+        </div>
 
         {/* Sticky save bar */}
-        <footer className="bg-cream-soft border-t border-paper-edge px-8 py-4 flex items-center gap-4">
+        <footer className="bg-cream-soft border-t border-paper-edge px-4 sm:px-8 py-3 sm:py-4 flex items-center gap-3 sm:gap-4 flex-wrap">
           <div className={`w-2 h-2 rounded-full ${dirty ? 'bg-amber animate-pulse-slow' : 'bg-moss'}`} aria-hidden/>
           <span className="text-sm text-bark-muted">{dirty ? 'Ungespeicherte Änderungen' : 'Alles gespeichert'}</span>
           {msg && (
@@ -151,13 +273,14 @@ export default function Editor({ initial }: { initial: AdminState }) {
               {msg.text}
             </span>
           )}
-          <div className="flex-1" />
+          <div className="flex-1 min-w-2" />
+          <kbd className="hidden md:inline-block font-mono text-[10px] text-bark-muted">Ctrl+S</kbd>
           <button
             onClick={save}
             disabled={!dirty || saving}
-            className="px-6 py-2.5 bg-bark text-cream-soft rounded-xl font-semibold hover:bg-moss-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-5 sm:px-6 py-2 sm:py-2.5 bg-bark text-cream-soft rounded-xl font-semibold hover:bg-moss-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            {saving ? 'Speichere…' : 'Alle Änderungen speichern'}
+            {saving ? 'Speichere…' : 'Speichern'}
           </button>
         </footer>
       </div>

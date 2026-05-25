@@ -40,9 +40,9 @@ export default function DiscordWidget() {
                   src={`https://discord.com/widget?id=${id}&theme=${theme === 'dark' ? 'dark' : 'light'}`}
                   width="100%"
                   height="500"
-                  allowTransparency
-                  frameBorder={0}
                   sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+                  loading="lazy"
+                  className="border-0 bg-transparent"
                   title="Discord widget"
                 />
               </div>
