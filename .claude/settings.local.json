@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Darius Hofman\\\\Desktop\\\\landing-mc-next\" -Recurse -Depth 2)",
-      "Bash(Select-Object FullName)",
-      "Bash(dir \"C:\\\\Users\\\\Darius Hofman\\\\Desktop\\\\landing-mc-next\" -Force)"
-    ]
-  }
-}

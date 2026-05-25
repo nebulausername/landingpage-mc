@@ -29,6 +29,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Claude Code internal state — do not commit
+.claude/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
