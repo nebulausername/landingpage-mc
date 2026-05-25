@@ -103,6 +103,52 @@ Diese Webseite soll **deine** sein. Schummelliste:
 
 ---
 
+## 🛠️ Admin-Panel — alles ohne Code anpassen
+
+**v2 hat ein vollständiges Admin-Panel** unter `/admin`. Damit kannst du Server-Infos, Ränge, Testimonials, Galerie, Team, FAQ und alle Texte (in allen Sprachen) bearbeiten ohne eine einzige Datei direkt anzufassen.
+
+### So aktivierst du es
+
+1. In `.env.local` (oder bei Vercel als Environment Variable):
+   ```
+   ADMIN_PASSWORD=DeinSicheresPasswort123
+   ```
+   (min. 6 Zeichen — nimm mind. 12 zufällige Zeichen in Produktion)
+2. Server neu starten (lokal: Strg+C, dann `npm run dev`)
+3. Gehe zu `http://localhost:3000/admin`
+4. Passwort eingeben — fertig
+
+### Was kann ich im Admin?
+
+| Tab | Was du dort änderst |
+|---|---|
+| **Server** | Name, IP, Version, Discord, Store, Status-API, Discord-Widget-ID, Tagline, Social-Links |
+| **Worlds** | Welche Spielmodi gezeigt werden, welcher ist groß (featured) |
+| **Ranks** | Preise, Buy-URLs, Perks, Texte je Sprache, Garantie-Zeile |
+| **Testimonials** | Spieler-Quotes hinzufügen/entfernen, Sterne, Badge, Quote in allen Sprachen |
+| **Gallery** | **Drag & Drop Bilder-Upload** → landet direkt in `public/gallery/`, Captions je Sprache |
+| **Staff** | Team-Mitglieder mit Rolle, Bio in allen Sprachen, Seit-Datum |
+| **Vote** | Vote-Site-URLs + Anzeigenamen + Reward-Text |
+| **Roadmap** | Quartal-Einträge mit Status (done/now/next/later) |
+| **Compare** | Vergleichszeilen (Du vs. typischer Server) |
+| **FAQ** | Anzahl Fragen + Q&A in allen Sprachen |
+| **Texts** | Hero, CTA-Band, Newsletter, Nav, Footer, Discord-Sektion — komplette Marketing-Copy |
+| **Settings** | Standard-Theme, Standard-Sprache, Site-URL, Newsletter-Sektion an/aus, Analytics-Provider |
+
+### Wie Save funktioniert
+
+- Im **Dev-Modus** (`npm run dev`): Admin schreibt direkt `lib/config.ts` und `lib/translations/*.ts` → Next.js HMR aktualisiert die Live-Site **sofort** ohne Refresh.
+- Im **Produktions-Modus** (Vercel): Filesystem ist read-only. Du nutzt das Admin lokal, machst deine Änderungen, dann `git commit` + `git push` → Vercel baut neu mit deinen Werten.
+
+### Sicherheit
+
+- HMAC-signierter Session-Cookie (HttpOnly, SameSite=Strict, 7 Tage)
+- Passwort wird mit timing-safe compare verglichen
+- `/admin` und alle `/api/admin/*` sind über `robots.txt` von Suchmaschinen ausgeschlossen
+- Ohne `ADMIN_PASSWORD` env-var: Admin ist komplett deaktiviert (auch der Login zeigt nur einen Hinweis)
+
+---
+
 ## 🎯 Neue Features in v2 — wie aktivieren
 
 ### Newsletter / Lead-Capture
