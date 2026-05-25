@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════════════
+   🎨 DESIGN TOKENS
+   ═══════════════════════════════════════════════════════════════════
+   Edit colors here. Format: "R G B" (space-separated) so Tailwind
+   can apply opacity via the `<alpha-value>` mechanism.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root, [data-theme="light"] {
+  --c-cream:        242 234 211;   /* page background */
+  --c-cream-soft:   250 244 225;   /* cards, raised surfaces */
+  --c-paper:        235 224 195;   /* alt section bg */
+  --c-paper-edge:   217 204 169;   /* borders */
+  --c-bark:         31 24 16;      /* primary text */
+  --c-bark-soft:    74 56 38;      /* secondary text */
+  --c-bark-muted:   110 90 64;     /* tertiary text */
+  --c-moss:         90 122 58;     /* accent green */
+  --c-moss-dark:    61 85 38;
+  --c-amber:        200 134 46;    /* accent gold */
+  --c-amber-bright: 228 168 69;
+  --c-rust:         160 74 43;     /* accent red */
+}
+
+[data-theme="dark"] {
+  --c-cream:        20 17 10;
+  --c-cream-soft:   31 24 16;
+  --c-paper:        26 22 16;
+  --c-paper-edge:   58 46 34;
+  --c-bark:         232 222 200;
+  --c-bark-soft:    181 167 136;
+  --c-bark-muted:   140 126 99;
+  --c-moss:         139 184 90;
+  --c-moss-dark:    111 157 69;
+  --c-amber:        228 168 69;
+  --c-amber-bright: 245 199 122;
+  --c-rust:         197 97 66;
+}
+
+html, body {
+  height: 100%;
+}
+body {
+  background: rgb(var(--c-cream));
+  color: rgb(var(--c-bark));
+  font-feature-settings: "ss01", "ss02";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Smooth scrolling for anchor links */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Tabular numerals for stats */
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* Decorative wood-grain background pattern (very subtle) */
+.bg-grain {
+  background-image:
+    radial-gradient(rgb(var(--c-paper-edge) / 0.18) 1px, transparent 1px),
+    radial-gradient(rgb(var(--c-paper-edge) / 0.12) 1px, transparent 1px);
+  background-size: 28px 28px, 14px 14px;
+  background-position: 0 0, 14px 14px;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid rgb(var(--c-moss));
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Skip-to-content link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 8px;
+  background: rgb(var(--c-bark));
+  color: rgb(var(--c-cream-soft));
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  z-index: 100;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 8px; }
+
+/* Custom scrollbar (subtle) */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: rgb(var(--c-cream)); }
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--c-paper-edge));
+  border-radius: 6px;
+  border: 2px solid rgb(var(--c-cream));
+}
+::-webkit-scrollbar-thumb:hover { background: rgb(var(--c-bark-muted)); }
