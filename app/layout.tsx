@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Fraunces, Manrope, JetBrains_Mono } from 'next/font/google';
 import { ThemeProvider, LangProvider } from '@/lib/providers';
+import Analytics from '@/components/Analytics';
 import { config } from '@/lib/config';
 import './globals.css';
 
@@ -20,29 +21,50 @@ const jbMono = JetBrains_Mono({
   display: 'swap',
 });
 
+const tagline = config.server.tagline ?? 'A handcrafted Minecraft survival world';
+const description = `${tagline} — slow-burn economy, claimable lands, weekly festivals, cross-platform Java + Bedrock. IP: ${config.server.ip}`;
+
 export const metadata: Metadata = {
+  metadataBase: new URL(config.siteUrl),
   title: {
     default: `${config.server.name} · Minecraft Survival Server`,
     template: `%s · ${config.server.name}`,
   },
-  description: 'A handcrafted Minecraft survival world — slow-burn economy, claimable lands, weekly festivals.',
-  keywords: ['Minecraft', 'survival server', 'SMP', config.server.name, 'Minecraft community'],
+  description,
+  keywords: [
+    'Minecraft', 'Minecraft server', 'survival server', 'SMP',
+    'Java Edition', 'Bedrock Edition', 'crossplay',
+    config.server.name, 'Minecraft community', 'no pay-to-win',
+  ],
+  alternates: {
+    canonical: '/',
+    languages: Object.fromEntries(config.languages.map(l => [l, `/?lang=${l}`])),
+  },
   openGraph: {
     title: `${config.server.name} · Minecraft Server`,
-    description: 'A handcrafted Minecraft survival world.',
+    description,
     type: 'website',
     locale: config.defaultLang,
+    url: config.siteUrl,
+    siteName: config.server.name,
   },
   twitter: {
     card: 'summary_large_image',
     title: `${config.server.name} · Minecraft Server`,
-    description: 'A handcrafted Minecraft survival world.',
+    description,
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   authors: [{ name: config.server.name }],
+  category: 'Gaming',
 };
 
 export const viewport: Viewport = {
@@ -74,6 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang={config.defaultLang} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
+        <Analytics />
       </head>
       <body className={`${fraunces.variable} ${manrope.variable} ${jbMono.variable} font-sans`}>
         <a href="#main" className="skip-link">Skip to content</a>

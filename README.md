@@ -1,9 +1,11 @@
-# 🌳 landing-mc Pro
+# 🌳 landing-mc Pro · v2
 
-> **Eine schöne Landing-Page für deinen Minecraft-Server.**
+> **Eine schöne Landing-Page für deinen Minecraft-Server, die auch wirklich verkauft.**
 > Du brauchst kein Programmierer zu sein. Wenn du klicken kannst, kannst du das.
 
-Das hier ist eine professionelle Webseite-Vorlage. Du kaufst sie einmal, machst sie zu **deiner** Webseite (eigener Name, eigene Farben, eigene Texte) und stellst sie online. Das war's.
+Das hier ist eine **professionelle, conversion-optimierte Webseite-Vorlage**. Du kaufst sie einmal, machst sie zu **deiner** Webseite (eigener Name, eigene Farben, eigene Texte) und stellst sie online. Das war's.
+
+**Neu in v2:** 9 zusätzliche Sektionen — Testimonials, Galerie, Team, Vote-Liste, Roadmap, Live-Discord, Vergleichstabelle, Newsletter und ein Trust-Bar — alle in 3 Sprachen, alle aus einer einzigen Config-Datei steuerbar.
 
 ---
 
@@ -11,10 +13,35 @@ Das hier ist eine professionelle Webseite-Vorlage. Du kaufst sie einmal, machst 
 
 Eine moderne Webseite für deinen Server mit:
 
-- ✨ **Hell- und Dunkelmodus** — wechselt automatisch je nach Tageszeit deiner Besucher
+### Sektionen (auf einer Seite, in dieser Reihenfolge)
+
+1. **Hero** mit Parallax-Szene und Live-Spielerzahl
+2. **Trust-Bar** — drei Vertrauenssignale auf einen Blick
+3. **Stats** — Zahlen, die zur Größe sprechen
+4. **Welten** — asymmetrisches Grid für alle Spielmodi
+5. **Features** — Bento-Grid mit hervorgehobenem Zitat
+6. **Testimonials** — Spieler-Stimmen mit Sternen und Avataren
+7. **Galerie** — Lightbox mit Tastatur-Navigation
+8. **Ränge** — drei Tiers mit Geld-zurück-Garantie
+9. **Vergleichstabelle** — du vs. typischer großer SMP
+10. **Roadmap** — vertikale Timeline mit Status-Badges
+11. **Team** — Staff-Karten mit Minecraft-Avataren und Online-Status
+12. **Discord-Widget** — Live-Mitgliederliste eingebettet
+13. **Vote-Liste** — Vote-Sites mit Belohnungs-Bar
+14. **FAQ** — Akkordeon mit erweiterten Fragen
+15. **Newsletter** — Lead-Capture mit Discord-Webhook
+16. **CTA** — finaler Push mit IP
+
+### Technisch
+
+- ✨ **Hell- und Dunkelmodus** — wechselt automatisch je nach Tageszeit
 - 🌍 **Drei Sprachen** — Deutsch, Englisch, Spanisch (automatisch erkannt)
-- 📋 **IP-Kopieren-Knopf** — Besucher klicken einmal, fertig
-- 📊 **Live Spielerzahl** (optional) — wird automatisch von deinem Server geholt
+- 📋 **IP-Kopieren-Knopf** — überall: Nav, Hero, Footer, CTA-Band
+- 📊 **Live Spielerzahl** (optional) — wird automatisch vom Server geholt
+- 📨 **Newsletter** mit Discord-Webhook und Rate-Limit
+- 🔎 **JSON-LD strukturierte Daten** — Google zeigt Stars/FAQ/Preis direkt im Suchergebnis
+- 🖼️ **Dynamisches Open-Graph-Bild** — schöne Vorschau auf Discord, X, WhatsApp
+- 📈 **Privacy-friendly Analytics** (Plausible / Umami / aus) — DSGVO ohne Cookie-Banner
 - 📱 **Funktioniert überall** — Handy, Tablet, Computer, alles
 - 🎨 **Editorial Design** — sieht aus wie ein Magazin, nicht wie ein 0815-Template
 - ⚡ **Blitzschnell** — lädt in unter einer Sekunde
@@ -27,170 +54,154 @@ Du brauchst nichts zu installieren. Wirklich. Nur zwei Konten:
 1. Ein **GitHub-Konto** (kostenlos, [github.com/signup](https://github.com/signup))
 2. Ein **Vercel-Konto** (kostenlos, [vercel.com/signup](https://vercel.com/signup))
 
-**Pro-Tipp:** 💡 Bei Vercel kannst du dich mit deinem GitHub-Konto einloggen. Dann brauchst du nur ein Passwort, nicht zwei.
+**Pro-Tipp:** 💡 Bei Vercel kannst du dich mit deinem GitHub-Konto einloggen.
 
 ### Schritt 1: Lade die Dateien zu GitHub hoch
 
-Du musst **kein Terminal benutzen.** GitHub hat eine "Datei hochladen"-Funktion im Browser. So gehts:
-
 1. Auf [github.com/new](https://github.com/new) ein neues Repository erstellen
-   - Name: zum Beispiel `mein-server-website`
-   - "Privat" auswählen (damit niemand deinen Code klauen kann)
-   - Klick "Create repository"
 2. Du landest auf einer fast leeren Seite. Da steht **"uploading an existing file"** als Link. Klick drauf.
-3. Entpacke unsere ZIP-Datei auf deinem Computer. Du hast jetzt einen Ordner `landing-mc-next/` mit ganz vielen Dateien drin.
-4. Im GitHub-Browser-Fenster: **ziehe ALLE Dateien aus dem Ordner** (nicht den Ordner selbst!) ins Upload-Feld.
-   - 💡 Tipp: Im Ordner `landing-mc-next/` Strg+A drücken (alle markieren), dann reinziehen.
-5. Unten auf "Commit changes" klicken. Warten. Fertig. 🎉
-
-Deine Dateien sind jetzt auf GitHub.
+3. Entpacke unsere ZIP-Datei. Du hast jetzt einen Ordner `landing-mc-next/`.
+4. **Ziehe ALLE Dateien aus dem Ordner** (nicht den Ordner selbst!) ins Upload-Feld.
+5. Unten auf "Commit changes" klicken. Fertig. 🎉
 
 ### Schritt 2: Verbinde GitHub mit Vercel
 
 1. Gehe zu [vercel.com/new](https://vercel.com/new)
-2. Klick "Import Git Repository"
-3. Wenn du noch nicht verbunden bist, fragt Vercel ob es GitHub anbinden darf → Erlauben
-4. **Such dein Repo** (`mein-server-website`) in der Liste → klick **"Import"**
-5. Auf der nächsten Seite: einfach **"Deploy"** klicken. Nichts anpassen.
-6. Warte ~60 Sekunden. Vercel baut deine Seite.
-7. ✅ **FERTIG.** Du siehst einen Bildschirm mit Konfetti und einer URL wie `mein-server-website.vercel.app`
+2. **Such dein Repo** in der Liste → klick **"Import"** → **"Deploy"**
+3. Warte ~60 Sekunden.
+4. ✅ **FERTIG.**
 
-**Glückwunsch.** Deine Seite ist live. Im Internet. Für alle erreichbar.
+### Schritt 3 (optional): Eigene Domain
 
-### Schritt 3 (optional): Eigene Domain wie `play.deinserver.de`
-
-1. In Vercel: dein Projekt öffnen → "Settings" → "Domains"
-2. Deine Domain eingeben (z.B. `deinserver.de`) → "Add"
-3. Vercel zeigt dir an, was du bei deinem Domain-Anbieter eintragen musst (DNS-Einträge)
-4. Bei deinem Domain-Anbieter (Strato, IONOS, GoDaddy etc.) im Domain-Verwaltungsbereich die Einträge übernehmen
-5. Nach ~10 Min ist deine Domain mit deiner Seite verbunden
+Vercel → Projekt → "Settings" → "Domains" → Deine Domain eingeben. Vercel zeigt dir die DNS-Einträge.
 
 ---
 
 ## ✏️ Was an der Seite ändern? Hier:
 
-Diese Webseite soll **deine** sein. Hier ist eine Schummelliste — was änderst du, und wo:
+Diese Webseite soll **deine** sein. Schummelliste:
 
 | Wenn du das ändern willst... | ...öffne diese Datei |
 |---|---|
-| Server-Name, IP, Discord-Link, Store-URL | `lib/config.ts` |
-| Welche Welten (Survival, Skyblock etc.) gezeigt werden | `lib/config.ts` (suche `worlds`) |
-| Welche Ränge mit welchen Preisen | `lib/config.ts` (suche `ranks`) |
+| Server-Name, IP, Discord, Store | `lib/config.ts` (oben drin) |
+| Welten / Spielmodi | `lib/config.ts` (suche `worlds`) |
+| Ränge und Preise | `lib/config.ts` (suche `ranks`) |
+| **Testimonials** (Spieler-Stimmen) | `lib/config.ts` + Texte in `lib/translations/*.ts` |
+| **Galerie-Bilder** | Bilder in `/public/gallery/`, Bildunterschriften in `lib/translations/*.ts` |
+| **Team-Mitglieder** | `lib/config.ts` (suche `staff`) + Texte in Translations |
+| **Vote-Sites** | `lib/config.ts` (suche `voteSites`) |
+| **Roadmap-Einträge** | `lib/config.ts` (suche `roadmap`) + Texte in Translations |
+| **Vergleichstabelle** | `lib/config.ts` (suche `comparison`) |
+| **Newsletter aktivieren** | `enableNewsletter: true` + `CONTACT_WEBHOOK_URL` env |
+| **Analytics aktivieren** | `analytics:` in `lib/config.ts` |
+| **Discord-Widget aktivieren** | `discordWidgetId` in `lib/config.ts` |
 | **Farben** der ganzen Seite | `app/globals.css` (oben drin) |
-| **Deutsche Texte** | `lib/translations/de.ts` |
-| **Englische Texte** | `lib/translations/en.ts` |
-| **Spanische Texte** | `lib/translations/es.ts` |
+| Deutsche Texte | `lib/translations/de.ts` |
+| Englische Texte | `lib/translations/en.ts` |
+| Spanische Texte | `lib/translations/es.ts` |
 | Das Logo | `components/Nav.tsx` (suche nach `Logo`) |
 
-### Beispiel: Server-Namen ändern
+---
 
-Öffne `lib/config.ts` in einem Texteditor (Notepad reicht, aber [VS Code](https://code.visualstudio.com) ist schöner).
+## 🎯 Neue Features in v2 — wie aktivieren
 
-Du siehst sowas hier:
+### Newsletter / Lead-Capture
+
+1. In Discord: Server-Einstellungen → Integrationen → Webhooks → "Neuer Webhook" → URL kopieren
+2. In Vercel: Projekt → Settings → Environment Variables → **Name:** `CONTACT_WEBHOOK_URL` **Wert:** die URL einfügen
+3. Redeploy (passiert automatisch beim nächsten Push, oder manuell im Vercel-Dashboard)
+4. Jedes Newsletter-Signup landet jetzt direkt in deinem Discord-Kanal als schöne Embed-Nachricht
+
+### Live-Discord-Widget
+
+1. In Discord: dein Server → Einstellungen → Widget → "Server-Widget aktivieren" einschalten → Server-ID kopieren
+2. In `lib/config.ts`:
+   ```ts
+   server: {
+     ...
+     discordWidgetId: 'DEINE_SERVER_ID',  // ← einsetzen
+   }
+   ```
+3. Commit, Vercel baut neu, fertig. Das Widget zeigt jetzt deine echte Online-Liste.
+
+### Analytics (DSGVO-konform, ohne Cookies)
+
+In `lib/config.ts`:
 
 ```ts
-server: {
-  name: 'Oakhaven',           // ← Hier den Namen ändern
-  ip:   'play.oakhaven.gg',   // ← Hier die IP
-  ...
+analytics: {
+  provider: 'plausible',
+  domain:    'deinserver.de',
+  scriptUrl: 'https://plausible.io/js/script.js',
 }
 ```
 
-Ändere `'Oakhaven'` zu `'DeinServer'`. **Achte auf die Anführungszeichen!** Die müssen bleiben. Speichern.
+Plausible ist nicht kostenlos (9 €/Monat), aber DSGVO-konform und du brauchst **keinen Cookie-Banner**. Alternative: Umami self-hosten (kostenlos).
 
-### So bringst du Änderungen online
+### Galerie-Bilder einsetzen
 
-**Wenn du den Vercel-Weg gegangen bist:** Jede Änderung in GitHub geht automatisch live. So machst du das im Browser:
+1. Bilder im Format `.jpg` oder `.webp` (max ~500 KB pro Bild empfohlen) in den Ordner `public/gallery/` legen
+2. Dateinamen müssen den Schlüsseln in `lib/config.ts` → `gallery` entsprechen: `spawn.jpg`, `market.jpg`, etc.
+3. Bildunterschriften kommen aus `lib/translations/*.ts` → `gallery.captions`
+4. Wenn ein Bild fehlt, wird automatisch ein schöner Farbverlauf als Fallback gezeigt — alles funktioniert auch ohne Bilder
 
-1. Geh zu deinem Repo auf GitHub
-2. Klick auf die Datei die du ändern willst (z.B. `lib/config.ts`)
-3. Oben rechts das Stift-Symbol ✏️ klicken
-4. Änderungen machen
-5. Unten "Commit changes" klicken
-6. Vercel sieht die Änderung automatisch und baut deine Seite neu (~60 Sek)
-7. Refresh deine Seite — fertig.
+### Eigene Testimonials
 
-**Pro-Tipp:** 💡 Bevor du Änderungen committest, kannst du oben rechts auf "Preview" klicken um zu sehen ob du keine Klammern oder Anführungszeichen vergessen hast.
+In `lib/config.ts` → `testimonials`: Liste von Minecraft-Usernames. Avatare werden automatisch von [mc-heads.net](https://mc-heads.net) geholt — du brauchst nichts hochzuladen.
 
-### Beispiel: Farben ändern
-
-Öffne `app/globals.css`. Ganz oben siehst du sowas:
-
-```css
-:root, [data-theme="light"] {
-  --c-cream:    242 234 211;   /* Hintergrundfarbe */
-  --c-moss:      90 122 58;    /* Akzentfarbe (Grün) */
-  --c-amber:    200 134  46;   /* zweite Akzentfarbe (Gold) */
-  ...
-}
-```
-
-Die Format ist **RGB getrennt durch Leerzeichen** (nicht Hex). So findest du die richtigen Zahlen:
-
-1. Geh zu [coolors.co](https://coolors.co) oder [rgbcolorcode.com](https://rgbcolorcode.com)
-2. Wähle deine Wunschfarbe
-3. Schreib dir die "RGB"-Werte auf (z.B. 46, 84, 158)
-4. In `globals.css` einfügen — aber **mit Leerzeichen statt Komma**:
-   ```css
-   --c-moss: 46 84 158;
-   ```
-
-Speichern → committen → Vercel baut neu → fertig.
+Die Quotes selbst stehen in `lib/translations/*.ts` → `testimonials.items.<Username>`.
 
 ---
 
 ## 🆘 Hilfe! Was wenn...
 
-### "Ich hab Schritt 1 falsch gemacht"
-Auf GitHub: dein Repo → "Settings" (oben rechts) → ganz unten scrollen → **"Delete this repository"**. Dann nochmal von vorn. Keine Panik, kostet nichts und du kannst es so oft machen wie du willst.
-
 ### "Vercel zeigt 'Build Failed'"
-- Klick auf "View Build Logs"
-- Such nach roten "Error"-Zeilen
+- Klick auf "View Build Logs", such nach roten "Error"-Zeilen
 - Häufigster Grund: vergessenes Komma oder Anführungszeichen in `config.ts`
 - Geh zur Datei zurück, repariere, committe → Vercel versucht's nochmal automatisch
 
-### "Live-Spielerzahl zeigt immer die gleiche Zahl"
-Das ist Absicht — solange du keine API verbunden hast, kommen Fallback-Werte. So aktivierst du echte Daten:
+### "Newsletter funktioniert nicht"
+- Hast du `CONTACT_WEBHOOK_URL` in den Vercel Environment Variables gesetzt?
+- Hast du nach dem Setzen ein **Redeploy** ausgelöst? (Vercel-Dashboard → Deployments → drei Punkte → "Redeploy")
+- Test mit echtem Submit, check den Discord-Kanal
 
-In `lib/config.ts`:
+### "Discord-Widget zeigt 'Server widget'-Platzhalter"
+Das ist der Fallback wenn `discordWidgetId` noch null ist. Setze die ID wie oben beschrieben.
+
+### "Live-Spielerzahl zeigt immer die gleiche Zahl"
+Solange `statusApi` null ist, kommen Fallback-Werte. In `lib/config.ts`:
 ```ts
-server: {
-  ...
-  statusApi: 'https://api.mcsrvstat.us/3/play.deinserver.com',  // ← deine Server-IP einsetzen
-}
+server: { ..., statusApi: 'https://api.mcsrvstat.us/3/play.deinserver.com' }
 ```
 
-Speichern, committen, Vercel baut neu. Die Spielerzahl auf der Seite ist jetzt echt.
-
-### "Ich hab gar nichts verstanden was ich da machen soll"
-Kein Stress. Schreib eine Nachricht im BBB-Resource-Chat und ich helfe Schritt für Schritt. Wirklich.
+### "Galerie-Bilder werden nicht angezeigt"
+Bilder müssen unter `/public/gallery/` liegen und exakt die Dateinamen aus `lib/config.ts` → `gallery` haben. Bei fehlenden Bildern wird ein Farbverlauf-Fallback angezeigt.
 
 ---
 
 ## 🤓 Für die Tech-Leute: lokal entwickeln
 
-(Diesen Teil kannst du **komplett ignorieren** wenn du den Vercel-Weg gegangen bist!)
+```bash
+npm install
+npm run dev
+```
 
-Wenn du lokal entwickeln willst:
+Browser öffnet automatisch auf `http://localhost:3000`. Änderungen erscheinen sofort.
 
-1. Node.js installieren von [nodejs.org](https://nodejs.org) (LTS-Version, links)
-2. **Mac/Linux:** Doppelklick `setup.sh` ODER im Terminal `./setup.sh`
-   **Windows:** Doppelklick `setup.bat`
-3. Browser öffnet automatisch unter `http://localhost:3000`
-4. Änderungen erscheinen sofort, ohne Refresh
+### Environment Variables
 
-### Statisches Hosting (Hostinger, Strato, eigener Server etc.)
+Lege eine Datei `.env.local` an (siehe `.env.example`):
 
-Wenn du auf einem normalen Webhosting (keine Node.js) hosten willst:
+```bash
+CONTACT_WEBHOOK_URL=https://discord.com/api/webhooks/.../...
+```
 
-1. In `next.config.mjs` diese Zeile auskommentieren (das `//` vorne entfernen):
-   ```js
-   output: 'export',
-   ```
-2. `npm run build` ausführen
-3. Den `out/`-Ordner per FTP auf deinen Webspace hochladen
-4. Fertig.
+### Statisches Hosting
+
+1. In `next.config.mjs` `output: 'export'` aktivieren
+2. `npm run build` → `out/`-Ordner per FTP hochladen
+
+⚠️ **Hinweis:** Im Static-Export-Modus funktionieren die API-Routes (`/api/contact`) und das dynamische OG-Bild **nicht**. Für Newsletter brauchst du dann einen externen Service (z.B. Formspree).
 
 ---
 
@@ -198,72 +209,60 @@ Wenn du auf einem normalen Webhosting (keine Node.js) hosten willst:
 
 ```
 landing-mc-next/
-├── 🎨 app/                  ← Die Webseite selbst
+├── 🎨 app/
 │   ├── globals.css            ← Farben & Schriften
-│   ├── layout.tsx             ← Rahmen um die ganze Seite
-│   ├── page.tsx               ← Die Hauptseite
-│   ├── icon.svg               ← Favicon (Browser-Tab-Icon)
-│   ├── not-found.tsx          ← 404-Seite ("Seite nicht gefunden")
-│   ├── error.tsx              ← Fehler-Seite ("Ups, was ging schief")
-│   ├── robots.ts              ← Sagt Google "darfst meine Seite indexieren"
-│   └── sitemap.ts             ← Inhaltsverzeichnis für Google
+│   ├── layout.tsx             ← Rahmen + Meta-Tags + Analytics
+│   ├── page.tsx               ← Hauptseite (16 Sektionen)
+│   ├── opengraph-image.tsx    ← Dynamisches OG-Bild für Social Shares
+│   ├── api/contact/route.ts   ← Newsletter-API → Discord-Webhook
+│   ├── icon.svg, not-found.tsx, error.tsx, robots.ts, sitemap.ts
 │
-├── 🧱 components/           ← Die Bausteine der Seite
-│   ├── Nav.tsx                ← Menü oben
-│   ├── Hero.tsx               ← Großer Bereich ganz oben
-│   ├── Stats.tsx              ← Die Zahlen-Leiste
-│   ├── Worlds.tsx             ← Welten-Übersicht
-│   ├── Features.tsx           ← Features-Bento
-│   ├── Ranks.tsx              ← Rang-Preise
-│   ├── FAQ.tsx                ← Häufige Fragen
-│   ├── CTABand.tsx            ← Dunkler "Komm her"-Streifen
-│   └── Footer.tsx             ← Fußbereich
+├── 🧱 components/
+│   ├── Nav.tsx, Hero.tsx, TrustBar.tsx, Stats.tsx,
+│   ├── Worlds.tsx, Features.tsx, Testimonials.tsx, Gallery.tsx,
+│   ├── Ranks.tsx, Comparison.tsx, Roadmap.tsx, Staff.tsx,
+│   ├── DiscordWidget.tsx, Vote.tsx, FAQ.tsx, Newsletter.tsx,
+│   ├── CTABand.tsx, Footer.tsx
+│   ├── Analytics.tsx           ← Plausible/Umami loader
+│   └── JsonLd.tsx              ← Strukturierte Daten für Google
 │
-├── ⚙️  lib/                  ← Die "Konfiguration"
-│   ├── config.ts              ← 🌟 HIER ÄNDERST DU AM MEISTEN
-│   ├── translations/          ← Die Texte in 3 Sprachen
-│   │   ├── de.ts                ← Deutsche Texte
-│   │   ├── en.ts                ← Englische Texte
-│   │   └── es.ts                ← Spanische Texte
-│   ├── providers.tsx          ← Theme + Sprache Mechanik (anfassen unnötig)
-│   ├── hooks.ts               ← Live-Status-Abfrage (anfassen unnötig)
-│   └── types.ts               ← TypeScript-Typen (anfassen unnötig)
+├── ⚙️  lib/
+│   ├── config.ts               ← 🌟 HIER ÄNDERST DU AM MEISTEN
+│   ├── translations/           ← Texte in 3 Sprachen
+│   ├── avatar.ts               ← Minecraft-Head-URL-Helfer
+│   ├── providers.tsx, hooks.ts, types.ts
 │
-├── 📜 README.md             ← Diese Datei hier
-├── 📜 LICENSE.md            ← Was du mit dem Template darfst und nicht darfst
-├── 📦 package.json          ← Liste der benötigten Pakete (nicht anfassen!)
-├── 🛠 setup.sh / setup.bat  ← One-Click-Installer für lokale Entwicklung
-└── ... (ein paar Config-Dateien, die Vercel selbst versteht)
+├── 🖼️  public/
+│   ├── gallery/                ← deine Screenshots hier rein
+│
+├── 📜 README.md, LICENSE.md, LISTING.md
+├── 📜 .env.example             ← Vorlage für Webhook-URL
+├── 📦 package.json
+└── 🛠 setup.sh / setup.bat
 ```
-
-**Die meisten dieser Dateien musst du nie anfassen.** Du brauchst praktisch nur:
-- `lib/config.ts` — Server-Daten
-- `lib/translations/de.ts` — deine deutschen Texte
-- `app/globals.css` — wenn du die Farben anpassen willst
 
 ---
 
 ## 📜 Lizenz
 
-Du hast eine **Single-Server-Lizenz** gekauft (über BuiltByBit). Du darfst:
+Du hast eine **Single-Server-Lizenz** (über BuiltByBit). Du darfst:
 
 - ✅ Diese Vorlage für **deinen Minecraft-Server** verwenden
-- ✅ Sie nach Belieben anpassen — Farben, Texte, Layout, alles
-- ✅ Sie auch für **mehrere Server** verwenden, **wenn du sie selbst betreibst**
+- ✅ Sie nach Belieben anpassen
+- ✅ Mehrere Server, wenn du sie selbst betreibst
 
 Du darfst **nicht**:
-
 - ❌ Die Vorlage weiterverkaufen oder verschenken
 - ❌ Den Quellcode öffentlich auf GitHub stellen (private Repos sind ok)
-- ❌ Für Kunden Webseiten damit bauen und verkaufen (dafür gibt's eine Multi-License — bei Bedarf nachfragen)
+- ❌ Für Kunden Webseiten damit bauen und verkaufen (dafür gibt's Multi-License)
 
-Siehe `LICENSE.md` für die volle Version.
+Siehe `LICENSE.md`.
 
 ---
 
 ## 💬 Brauchst du Hilfe?
 
-Schreib mir in der BuiltByBit-Resource-Konversation. Ich helfe gerne durch das Setup — wirklich, **frag einfach**, auch bei vermeintlich dummen Fragen. Wir haben alle mal mit GitHub angefangen ohne zu wissen was ein Commit ist.
+Schreib mir in der BuiltByBit-Resource-Konversation. **Frag einfach.**
 
 ---
 

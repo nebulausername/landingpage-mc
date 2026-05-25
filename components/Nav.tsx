@@ -20,13 +20,24 @@ export default function Nav() {
 
   function copyIP() {
     navigator.clipboard?.writeText(config.server.ip);
-    // Tiny UX: flash the IP element
     const el = document.getElementById('nav-ip');
     if (el) {
       el.classList.add('ring-2', 'ring-moss');
       setTimeout(() => el.classList.remove('ring-2', 'ring-moss'), 800);
     }
   }
+
+  // Anchor links, in mobile order. Desktop shows the first 5.
+  const links: Array<{ key: keyof typeof t.nav | string; href: string }> = [
+    { key: 'worlds',  href: '#worlds'   },
+    { key: 'realm',   href: '#features' },
+    { key: 'gallery', href: '#gallery'  },
+    { key: 'ranks',   href: '#ranks'    },
+    { key: 'roadmap', href: '#roadmap'  },
+    { key: 'staff',   href: '#staff'    },
+    { key: 'vote',    href: '#vote'     },
+    { key: 'faq',     href: '#faq'      },
+  ];
 
   return (
     <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? 'bg-cream/90 backdrop-blur-md border-b border-paper-edge' : 'bg-transparent'}`}>
@@ -38,11 +49,12 @@ export default function Nav() {
         </a>
 
         {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-1 ml-6 text-sm">
-          <a href="#worlds"   className="px-3 py-2 hover:text-moss-dark transition-colors">{t.nav.worlds}</a>
-          <a href="#features" className="px-3 py-2 hover:text-moss-dark transition-colors">{t.nav.realm}</a>
-          <a href="#ranks"    className="px-3 py-2 hover:text-moss-dark transition-colors">{t.nav.ranks}</a>
-          <a href="#faq"      className="px-3 py-2 hover:text-moss-dark transition-colors">{t.nav.faq}</a>
+        <nav className="hidden lg:flex items-center gap-0.5 ml-6 text-sm">
+          {links.slice(0, 5).map(l => (
+            <a key={l.key} href={l.href} className="px-3 py-2 hover:text-moss-dark transition-colors">
+              {(t.nav as any)[l.key]}
+            </a>
+          ))}
         </nav>
 
         <div className="flex-1" />
@@ -93,7 +105,7 @@ export default function Nav() {
 
       {/* Mobile drawer */}
       {open && (
-        <div className="fixed inset-0 z-50 bg-cream lg:hidden animate-fade-in">
+        <div className="fixed inset-0 z-50 bg-cream lg:hidden animate-fade-in overflow-y-auto">
           <div className="max-w-wrap mx-auto px-6 h-16 flex items-center">
             <a href="#" className="flex items-center gap-2.5 font-display text-xl">
               <Logo />
@@ -104,10 +116,10 @@ export default function Nav() {
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 4l10 10M14 4L4 14"/></svg>
             </button>
           </div>
-          <nav className="px-6 py-4 flex flex-col gap-2 font-display text-3xl">
-            {['worlds','realm','ranks','faq'].map(k => (
-              <a key={k} href={`#${k === 'realm' ? 'features' : k}`} onClick={() => setOpen(false)} className="py-2 hover:text-moss-dark">
-                {t.nav[k]}
+          <nav className="px-6 py-4 flex flex-col gap-1 font-display text-2xl">
+            {links.map(l => (
+              <a key={l.key} href={l.href} onClick={() => setOpen(false)} className="py-2 hover:text-moss-dark">
+                {(t.nav as any)[l.key]}
               </a>
             ))}
           </nav>

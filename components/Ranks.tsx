@@ -22,7 +22,7 @@ export default function Ranks() {
         </div>
 
         {/* Cards */}
-        <div className="grid md:grid-cols-3 gap-5">
+        <div className="grid md:grid-cols-3 gap-5 mb-8">
           {config.ranks.map(rank => {
             const data = r[rank.id];
             if (!data) return null;
@@ -71,6 +71,16 @@ export default function Ranks() {
             );
           })}
         </div>
+
+        {/* Trust line under pricing */}
+        {r.guarantee && (
+          <p className="text-center text-sm text-bark-muted flex items-center justify-center gap-2 flex-wrap">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="rgb(var(--c-moss-dark))" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M10 2l7 3v5c0 4-3 7-7 8-4-1-7-4-7-8V5z M7 10l2 2 4-4"/>
+            </svg>
+            {r.guarantee}
+          </p>
+        )}
       </div>
     </section>
   );
